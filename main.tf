@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-central-1"
+  region = var.region
 }
 
 # Data blocks reference exising resource.
@@ -22,8 +22,13 @@ data "aws_subnet_ids" "default_subnet" {
 # Generally format in defining resource is "TYPE" "CUSTOM NAME"
 resource "aws_instance" "drpler_1" {
   ami             = "ami-04075458d3b9f6a5b"
-  instance_type   = "t2.micro"
+  instance_type   = var.instance_type
   security_groups = [aws_security_group.instances.name]
+
+  tags = {
+    Name = var.domain
+  }
+
   user_data       = <<-EOF
     #!/bin/bash
     echo "Hello world on instance #1" > index.html
@@ -32,8 +37,13 @@ resource "aws_instance" "drpler_1" {
 }
 resource "aws_instance" "drpler_2" {
   ami             = "ami-04075458d3b9f6a5b"
-  instance_type   = "t2.micro"
+  instance_type   = var.instance_type
   security_groups = [aws_security_group.instances.name]
+
+  tags = {
+    Name = var.domain
+  }
+
   user_data       = <<-EOF
     #!/bin/bash
     echo "Hello world on instance #2" > index.html
@@ -139,10 +149,10 @@ resource "aws_lb" "drpler" {
 
 
 resource "aws_route53_zone" "drpler" {
-  name = "drpler.com"
+  name = var.domain
 }
 resource "aws_route53_record" "drpler" {
-  name    = "drpler.com"
+  name    = var.domain
   type    = "A"
   zone_id = aws_route53_zone.drpler.zone_id
 
@@ -158,9 +168,9 @@ resource "aws_db_instance" "db_instance" {
   storage_type = "standard"
   engine = "mysql"
   engine_version = "8.0.35"
-  name = "drpler" # deprecated?
-  username = "example"
-  password = "example"
+  name = var.db_name # deprecated?
+  username = var.db_user
+  password = var.db_pass
   skip_final_snapshot = true
   instance_class = "db.t2.micro"
 }

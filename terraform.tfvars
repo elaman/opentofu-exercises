@@ -1,0 +1,6 @@
+domain = "drpler.com"
+ami = "ami-04075458d3b9f6a5b"
+instance_type = "t2.micro"
+region = "eu-central-1"
+db_name = "drupal"
+db_user = "drupal"
