@@ -19,13 +19,25 @@ data "aws_subnet_ids" "default_subnet" {
   vpc_id = data.aws_vpc.default_vpc.id
 }
 
-resource "aws_instance" "drupal" {
+# Generally format in defining resource is "TYPE" "CUSTOM NAME"
+# Naming things is HARD!
+resource "aws_instance" "drupal_1" {
   ami             = "ami-04075458d3b9f6a5b"
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instances.name]
   user_data       = <<-EOF
     #!/bin/bash
-    echo "Hello world" > index.html
+    echo "Hello world on instance #1" > index.html
+    python3 -m http.server 8080 &
+    EOF
+}
+resource "aws_instance" "drupal_2" {
+  ami             = "ami-04075458d3b9f6a5b"
+  instance_type   = "t2.micro"
+  security_groups = [aws_security_group.instances.name]
+  user_data       = <<-EOF
+    #!/bin/bash
+    echo "Hello world on instance #2" > index.html
     python3 -m http.server 8080 &
     EOF
 }
@@ -95,9 +107,13 @@ resource "aws_lb_target_group" "instances" {
     unhealthy_threshold = 2
   }
 }
-resource "aws_lb_target_group_attachment" "drupal" {
+resource "aws_lb_target_group_attachment" "drupal_1" {
   target_group_arn = aws_lb_target_group.instances.arn
-  target_id        = aws_instance.drupal.id
+  target_id        = aws_instance.drupal_1.id
+}
+resource "aws_lb_target_group_attachment" "drupal_2" {
+  target_group_arn = aws_lb_target_group.instances.arn
+  target_id        = aws_instance.drupal_2.id
 }
 resource "aws_lb_listener_rule" "instances" {
   listener_arn = aws_lb_listener.http.arn
