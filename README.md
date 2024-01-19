@@ -16,3 +16,15 @@ AmazonEC2FullAccess, AmazonRoute53FullAccess, AmazonRDSFullAccess.
 - `opentofu apply` applies the desired state of the infrastructure.
 - `opentofu destroy` destroys the infrastructure.
  
+
+## Building blocks in app module
+- We are using compute instances to serve apps in `compute.tf` (EC2 in AWS)
+- We are using dns management to connect the domain `dns.tf` (Route 53 in AWS)
+- We are using remote database for app `database.tf`  (RDS in AWS)
+- All the networking vpc, security groups, load balancer are done in `network.tf` as I don't understand clearly what they do yet.
+
+## TODO
+- Learn what each component does
+- Allow setting number of replicas easily
+- Allow creating environments
+- Allow installing drupal or wordpress in the instance
