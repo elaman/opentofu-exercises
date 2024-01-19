@@ -1,10 +1,10 @@
-resource "aws_route53_zone" "primary" {
+data "aws_route53_zone" "primary" {
   name = var.dns_domain
 }
 resource "aws_route53_record" "root" {
   name    = var.dns_domain
   type    = "A"
-  zone_id = aws_route53_zone.primary.zone_id
+  zone_id = data.aws_route53_zone.primary.zone_id
 
   alias {
     evaluate_target_health = true

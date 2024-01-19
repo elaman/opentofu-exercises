@@ -28,3 +28,4 @@ AmazonEC2FullAccess, AmazonRoute53FullAccess, AmazonRDSFullAccess.
 - Allow setting number of replicas easily
 - Allow creating environments
 - Allow installing drupal or wordpress in the instance
+- Can or should I use Cloudflare for DNS?
