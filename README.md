@@ -3,19 +3,23 @@
 ## Preparations
 - Create or log into an existing AWS account
 - Use Identity and Access Management (IAM) to create a user group "opentofu" and grand following permissions:
-AmazonEC2FullAccess, AmazonRoute53FullAccess, AmazonRDSFullAccess.
+  - AmazonEC2FullAccess for compute instances (also networking required for it)
+  - AmazonRoute53FullAccess for DNS management
+  - AmazonRDSFullAccess for remote database
+  - AmazonS3FullAccess to store tfstate
+  - AmazonDynamoDBFullAccess to lock tfstate and prevent change conflicts
 - In IAM create a user and add it to opentofu group.
 - Navigate to security credentials of the newly created user and create a new access key.
 - Install opentofu and aws on the machine.
 - Run `aws configure` in the terminal and use Access Key and Security.
-
+- Comment out lines 2-8 in `./main.tf` then execute `opentofu init` followed by `opentofu plan` and `opentofu apply`
+- Uncomment lines 2-8 in `./main.tf` which will move tfstate to the remote bucket.
 
 ## How to use OpenTofu
 - When first cloned `opentofu init` must be run to download providers, modules, tc.
 - `opentofu plan` compares current state with desired state, so run it after changing the code.
 - `opentofu apply` applies the desired state of the infrastructure.
 - `opentofu destroy` destroys the infrastructure.
- 
 
 ## Building blocks in app module
 - We are using compute instances to serve apps in `compute.tf` (EC2 in AWS)

@@ -1,4 +1,12 @@
 terraform {
+  backend "s3" {
+    bucket         = "opentofu-tfstate"
+    key            = "terraform.tfstate"
+    region         = "eu-central-1"
+    dynamodb_table = "tfstate-locking"
+    encrypt        = true
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -20,11 +28,11 @@ variable "db_pass" {
 module "drpler" {
   source = "./app-module"
 
-  app_name         = "drpler"
-  compute_instance_type    = "t2.micro"
-  dns_create_zone  = true
-  dns_domain           = "drpler.com"
-  db_name          = "drplerdb"
-  db_user          = "drpleruser"
-  db_pass          = var.db_pass
+  app_name              = "drpler"
+  compute_instance_type = "t2.micro"
+  dns_create_zone       = true
+  dns_domain            = "drpler.com"
+  db_name               = "drplerdb"
+  db_user               = "drpleruser"
+  db_pass               = var.db_pass
 }
