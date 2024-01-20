@@ -17,13 +17,13 @@
 When starting with a new AWS account or if S3 and DynamoDB aren't setup yet follow this:
 - Comment out lines 2-8 in `./general/main.tf` then execute `opentofu init` followed by `opentofu plan` and
 `opentofu apply` in that directory `general`.
-- Uncomment lines 2-8 in `./main.tf` and execute `opentofu init` again, which will move tfstate to the remote bucket. 
+- Uncomment lines 2-8 in `./main.tf` and execute `opentofu init` again, which will move tfstate to the remote bucket.
 
 ## How to use OpenTofu
 - When first cloned `opentofu init` must be run to download providers, modules, tc.
-- `opentofu plan` compares current state with desired state, so run it after changing the code.
-- `opentofu apply` applies the desired state of the infrastructure.
-- `opentofu destroy` destroys the infrastructure.
+- `opentofu -chdir=./live plan` compares current state with desired state, so run it after changing the code.
+- `opentofu -chdir=./live apply -auto-approve` applies the desired state of the infrastructure.
+- `opentofu -chdir=./live destroy -auto-approve` destroys the infrastructure.
 
 ## Building blocks in app module
 - We are using compute instances to serve apps in `compute.tf` (EC2 in AWS)
