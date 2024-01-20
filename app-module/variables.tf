@@ -4,6 +4,11 @@ variable "app_name" {
   default     = "app"
 }
 
+variable "app_environment" {
+  description = "Application environment"
+  type        = string
+}
+
 variable "compute_ami" {
   description = "Amazon machine image for compute instance"
   type        = string

@@ -5,7 +5,7 @@ resource "aws_instance" "instance_1" {
 
   user_data = <<-EOF
     #!/bin/bash
-    echo "Hello world on instance #1" > index.html
+    echo "Hello world on instance #1 in ${var.app_environment} environment" > index.html
     python3 -m http.server 8080 &
     EOF
 
@@ -19,7 +19,7 @@ resource "aws_instance" "instance_2" {
   security_groups = [aws_security_group.instances.name]
   user_data       = <<-EOF
     #!/bin/bash
-    echo "Hello world on instance #2" > index.html
+    echo "Hello world on instance #2 in ${var.app_environment} environment" > index.html
     python3 -m http.server 8080 &
     EOF
 

@@ -1,9 +1,10 @@
 terraform {
+  # S3 and DynamoDB is created in general folder.
   backend "s3" {
-    bucket         = "opentofu-tfstate"
-    key            = "terraform.tfstate"
+    bucket         = "drupalhosting-tfstate"
+    key            = "stage/terraform.tfstate"
     region         = "eu-central-1"
-    dynamodb_table = "tfstate-locking"
+    dynamodb_table = "drupalhosting-tfstate-locking"
     encrypt        = true
   }
 
@@ -25,14 +26,18 @@ variable "db_pass" {
   sensitive   = true
 }
 
+locals {
+  environment = "stage"
+}
+
 module "drpler" {
-  source = "./app-module"
+  source = "../app-module"
 
   app_name              = "drpler"
+  app_environment       = local.environment
   compute_instance_type = "t2.micro"
-  dns_create_zone       = true
   dns_domain            = "drpler.com"
-  db_name               = "drplerdb"
+  db_name               = "drpler${local.environment}"
   db_user               = "drpleruser"
   db_pass               = var.db_pass
 }

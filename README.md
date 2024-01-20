@@ -12,8 +12,12 @@
 - Navigate to security credentials of the newly created user and create a new access key.
 - Install opentofu and aws on the machine.
 - Run `aws configure` in the terminal and use Access Key and Security.
-- Comment out lines 2-8 in `./main.tf` then execute `opentofu init` followed by `opentofu plan` and `opentofu apply`
-- Uncomment lines 2-8 in `./main.tf` which will move tfstate to the remote bucket.
+
+## Fresh start
+When starting with a new AWS account or if S3 and DynamoDB aren't setup yet follow this:
+- Comment out lines 2-8 in `./general/main.tf` then execute `opentofu init` followed by `opentofu plan` and
+`opentofu apply` in that directory `general`.
+- Uncomment lines 2-8 in `./main.tf` and execute `opentofu init` again, which will move tfstate to the remote bucket. 
 
 ## How to use OpenTofu
 - When first cloned `opentofu init` must be run to download providers, modules, tc.
@@ -30,6 +34,5 @@
 ## TODO
 - Learn what each component does
 - Allow setting number of replicas easily
-- Allow creating environments
 - Allow installing drupal or wordpress in the instance
 - Can or should I use Cloudflare for DNS?
