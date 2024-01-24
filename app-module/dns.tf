@@ -1,6 +1,11 @@
 resource "aws_route53_zone" "primary" {
   name  = var.dns_domain
   count = var.dns_create_zone ? 1 : 0
+
+  tags = {
+    Name = var.app_name
+    Environment = var.app_environment
+  }
 }
 
 data "aws_route53_zone" "primary" {

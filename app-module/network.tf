@@ -8,6 +8,11 @@ data "aws_subnet_ids" "default_subnet" {
 
 resource "aws_security_group" "instances" {
   name = "${var.app_name}-${var.app_environment}-instance-security-group"
+
+  tags = {
+    Name = var.app_name
+    Environment = var.app_environment
+  }
 }
 
 resource "aws_security_group_rule" "allow_http_inbound" {
@@ -21,6 +26,11 @@ resource "aws_security_group_rule" "allow_http_inbound" {
 
 resource "aws_security_group" "lb" {
   name = "${var.app_name}-${var.app_environment}-lb-security-group"
+
+  tags = {
+    Name = var.app_name
+    Environment = var.app_environment
+  }
 }
 
 resource "aws_security_group_rule" "allow_lb_http_inbound" {
@@ -73,17 +83,16 @@ resource "aws_lb_target_group" "instances" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
   }
+
+  tags = {
+    Name = var.app_name
+    Environment = var.app_environment
+  }
 }
 
 resource "aws_lb_target_group_attachment" "instance_1" {
   target_group_arn = aws_lb_target_group.instances.arn
   target_id        = aws_instance.instance_1.id
-  port             = 8080
-}
-
-resource "aws_lb_target_group_attachment" "instance_2" {
-  target_group_arn = aws_lb_target_group.instances.arn
-  target_id        = aws_instance.instance_2.id
   port             = 8080
 }
 
@@ -108,6 +117,11 @@ resource "aws_lb" "load_balancer" {
   load_balancer_type = "application"
   subnets            = data.aws_subnet_ids.default_subnet.ids
   security_groups    = [aws_security_group.lb.id]
+
+  tags = {
+    Name = var.app_name
+    Environment = var.app_environment
+  }
 }
 
 
