@@ -4,7 +4,6 @@
 - Create or log into an existing AWS account
 - Use Identity and Access Management (IAM) to create a user group "opentofu" and grand following permissions:
   - AmazonEC2FullAccess for compute instances (also networking required for it)
-  - AmazonRoute53FullAccess for DNS management
   - AmazonRDSFullAccess for remote database
   - AmazonS3FullAccess to store tfstate
   - AmazonDynamoDBFullAccess to lock tfstate and prevent change conflicts
@@ -27,7 +26,7 @@ When starting with a new AWS account or if S3 and DynamoDB aren't setup yet foll
 
 ## Building blocks in app module
 - We are using compute instances to serve apps in `compute.tf` (EC2 in AWS)
-- We are using dns management to connect the domain `dns.tf` (Route 53 in AWS)
+- We are using dns management to connect the domain `dns.tf` (Cloudflare)
 - We are using remote database for app `database.tf`  (RDS in AWS)
 - All the networking vpc, security groups, load balancer are done in `network.tf` as I don't understand clearly what they do yet.
 
@@ -36,8 +35,12 @@ When starting with a new AWS account or if S3 and DynamoDB aren't setup yet foll
 - Name changes DESTROY things
 - Don't forget to destroy resources - cloud nuke?
 
+## Variables
+- db_pass - database base
+- cloudflare_api_token - Cloudflare api token.
+
 ## TODO
 - Learn what each component does
 - Allow setting number of replicas easily
 - Allow installing drupal or wordpress in the instance
-- Can or should I use Cloudflare for DNS?
+- Database password autogenerate store in secure storage?

@@ -13,6 +13,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 3.0"
     }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 4.0"
+    }
   }
 }
 
@@ -20,8 +25,18 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
+
 variable "db_pass" {
   description = "Password for database"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_api_token" {
+  description = "CloudFlare API token"
   type        = string
   sensitive   = true
 }
