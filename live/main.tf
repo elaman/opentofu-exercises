@@ -51,6 +51,7 @@ module "drpler" {
   app_name              = "drpler"
   app_environment       = local.environment
   compute_instance_type = "t2.micro"
+  compute_replicas      = 2
   dns_domain            = "drpler.com"
   db_name               = "drpler${local.environment}"
   db_user               = "drpleruser"

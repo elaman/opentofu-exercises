@@ -21,6 +21,12 @@ variable "compute_instance_type" {
   default     = "t2.micro"
 }
 
+variable "compute_replicas" {
+  description = "Instance replicas"
+  type        = number
+  default     = 1
+}
+
 variable "dns_create_zone" {
   description = "If true, create new route53 zone, if false read existing route53 zone"
   type        = bool

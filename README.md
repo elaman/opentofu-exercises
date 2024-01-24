@@ -11,6 +11,7 @@
 - Navigate to security credentials of the newly created user and create a new access key.
 - Install opentofu and aws on the machine.
 - Run `aws configure` in the terminal and use Access Key and Security.
+- Domain name should be registered with CloudFlare.
 
 ## Fresh start
 When starting with a new AWS account or if S3 and DynamoDB aren't setup yet follow this:
@@ -41,6 +42,6 @@ When starting with a new AWS account or if S3 and DynamoDB aren't setup yet foll
 
 ## TODO
 - Learn what each component does
-- Allow setting number of replicas easily
 - Allow installing drupal or wordpress in the instance
 - Database password autogenerate store in secure storage?
+- Create before destroy?

@@ -10,7 +10,7 @@ resource "aws_security_group" "instances" {
   name = "${var.app_name}-${var.app_environment}-instance-security-group"
 
   tags = {
-    Name = var.app_name
+    Name        = var.app_name
     Environment = var.app_environment
   }
 }
@@ -28,7 +28,7 @@ resource "aws_security_group" "lb" {
   name = "${var.app_name}-${var.app_environment}-lb-security-group"
 
   tags = {
-    Name = var.app_name
+    Name        = var.app_name
     Environment = var.app_environment
   }
 }
@@ -85,14 +85,15 @@ resource "aws_lb_target_group" "instances" {
   }
 
   tags = {
-    Name = var.app_name
+    Name        = var.app_name
     Environment = var.app_environment
   }
 }
 
-resource "aws_lb_target_group_attachment" "instance_1" {
+resource "aws_lb_target_group_attachment" "app" {
+  count            = length(aws_instance.app)
   target_group_arn = aws_lb_target_group.instances.arn
-  target_id        = aws_instance.instance_1.id
+  target_id        = aws_instance.app[count.index].id
   port             = 8080
 }
 
@@ -119,9 +120,8 @@ resource "aws_lb" "load_balancer" {
   security_groups    = [aws_security_group.lb.id]
 
   tags = {
-    Name = var.app_name
+    Name        = var.app_name
     Environment = var.app_environment
   }
 }
-
 
