@@ -31,6 +31,11 @@ When starting with a new AWS account or if S3 and DynamoDB aren't setup yet foll
 - We are using remote database for app `database.tf`  (RDS in AWS)
 - All the networking vpc, security groups, load balancer are done in `network.tf` as I don't understand clearly what they do yet.
 
+## Gotchas
+- Terraform timeouts - can cause issues 
+- Name changes DESTROY things
+- Don't forget to destroy resources - cloud nuke?
+
 ## TODO
 - Learn what each component does
 - Allow setting number of replicas easily
